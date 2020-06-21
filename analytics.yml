@@ -1,0 +1,134 @@
+
+version: '3'
+services:
+
+  # ElasticSearch and Kibana
+  elasticsearch:
+    image: elasticsearch:7.7.1
+    ports:
+    - "9200:9200"
+    environment:
+      discovery.type: single-node
+    volumes:
+    - ./es:/usr/share/elasticsearch/data
+    restart: always
+    shm_size: 1G
+  kibana:
+    image: kibana:7.7.1
+    ports:
+    - "5601:5601"
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200/
+    restart: always
+
+  # Gaffer
+  hadoop:
+    image: docker.io/cybermaggedon/hadoop:2.10.0
+    volumes:
+    - ./hadoop:/data
+    restart: always
+  zookeeper:    
+    image: docker.io/cybermaggedon/zookeeper:3.6.1
+    volumes:
+    - ./zk:/data
+    restart: always
+  accumulo:
+    image: docker.io/cybermaggedon/accumulo-gaffer:1.12.0
+    restart: always
+  gaffer-threatgraph:
+    image: docker.io/cybermaggedon/wildfly-gaffer:1.12.0
+    ports:
+    - "8081:8080"
+    environment:
+      ACCUMULO_TABLE: threatgraph
+    volumes:
+    - ./threatgraph-schema:/usr/local/wildfly/schema
+    restart: always
+  gaffer-riskgraph:
+    image: docker.io/cybermaggedon/wildfly-gaffer:1.12.0
+    ports:
+    - "8082:8080"
+    environment:
+      ACCUMULO_TABLE: riskgraph
+    volumes:
+    - ./riskgraph-schema:/usr/local/wildfly/schema
+    restart: always
+
+  # Pulsar
+  exchange:
+    image: apachepulsar/pulsar:2.5.1
+    command: bin/pulsar standalone
+    restart: always
+    volumes:
+    - ./pulsar:/pulsar/data
+    ports:
+    - "6650:6650"
+    - "8080:8080"
+
+  # cybermon
+  cybermon:
+    image: docker.io/cybermaggedon/cyberprobe:2.5.1
+    command: cybermon -p 9000 -c /etc/cyberprobe/pulsar.lua
+    environment:
+      PULSAR_BROKER: ws://exchange:8080
+    ports:
+    - "9000:9000"
+    restart: always
+
+  evs-geoip:
+    image: docker.io/cybermaggedon/evs-geoip:0.2.0
+    environment:
+      PULSAR_BROKER: pulsar://exchange:6650
+      INPUT: cyberprobe
+      OUTPUT: geo
+      METRICS_PORT: 8088
+    ports:
+    - "9900:8088"
+    restart: always
+
+  evs-detector:
+    image: docker.io/cybermaggedon/evs-detector:0.2.1
+    environment:
+      INDICATORS: /usr/local/share/iocs/indicators.json
+      PULSAR_BROKER: pulsar://exchange:6650
+      INPUT: geo
+      OUTPUT: ioc
+      METRICS_PORT: 8088
+    ports:
+    - "9901:8088"
+    volumes:
+    - ./indicators:/usr/local/share/iocs
+    restart: always
+
+  evs-elasticsearch:
+    image: docker.io/cybermaggedon/evs-elasticsearch:0.2.0
+    environment:
+      PULSAR_BROKER: pulsar://exchange:6650
+      INPUT: ioc
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+      METRICS_PORT: 8088
+    ports:
+    - "9902:8088"
+    restart: always
+
+  evs-threatgraph:
+    image: docker.io/cybermaggedon/evs-threatgraph:0.2.1
+    environment:
+      PULSAR_BROKER: pulsar://exchange:6650
+      INPUT: ioc
+      GAFFER_URL: http://gaffer-threatgraph:8080/rest/v2
+      METRICS_PORT: 8088
+    ports:
+    - "9903:8088"
+    restart: always
+
+  evs-riskgraph:
+    image: docker.io/cybermaggedon/evs-riskgraph:0.2.1
+    environment:
+      PULSAR_BROKER: pulsar://exchange:6650
+      INPUT: ioc
+      GAFFER_URL: http://gaffer-riskgraph:8080/rest/v2
+      METRICS_PORT: 8088
+    ports:
+    - "9904:8088"
+    restart: always
