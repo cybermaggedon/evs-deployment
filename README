@@ -1,6 +1,6 @@
 
-mkdir pulsar hadoop es zk
-sudo chcon -Rt svirt_sandbox_file_t pulsar hadoop es zk
+mkdir pulsar hadoop es zk cassandra
+sudo chcon -Rt svirt_sandbox_file_t pulsar hadoop es zk cassandra
 
 docker-compose -f analytics.yml up -d
 

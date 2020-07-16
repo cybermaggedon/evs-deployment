@@ -2,25 +2,6 @@
 version: '3'
 services:
 
-  # ElasticSearch and Kibana
-  elasticsearch:
-    image: elasticsearch:7.7.1
-    ports:
-    - "9200:9200"
-    environment:
-      discovery.type: single-node
-    volumes:
-    - ./es:/usr/share/elasticsearch/data
-    restart: always
-    shm_size: 1G
-  kibana:
-    image: kibana:7.7.1
-    ports:
-    - "5601:5601"
-    environment:
-      ELASTICSEARCH_URL: http://elasticsearch:9200/
-    restart: always
-
   # Gaffer
   hadoop:
     image: docker.io/cybermaggedon/hadoop:2.10.0
@@ -52,14 +33,6 @@ services:
       ACCUMULO_TABLE: riskgraph
     volumes:
     - ./riskgraph-schema:/usr/local/wildfly/schema
-    restart: always
-
-  cassandra:
-    image: cassandra:3.11.6
-    ports:
-    - "9042:9042"
-    volumes:
-    - ./cassandra:/var/lib/cassandra
     restart: always
 
   # Pulsar
@@ -108,17 +81,6 @@ services:
     - ./indicators:/usr/local/share/iocs
     restart: always
 
-  evs-elasticsearch:
-    image: docker.io/cybermaggedon/evs-elasticsearch:0.4.4
-    environment:
-      PULSAR_BROKER: pulsar://exchange:6650
-      INPUT: ioc
-      ELASTICSEARCH_URL: http://elasticsearch:9200
-      METRICS_PORT: 8088
-    ports:
-    - "9902:8088"
-    restart: always
-
   evs-threatgraph:
     image: docker.io/cybermaggedon/evs-threatgraph:0.4.2
     environment:
@@ -140,29 +102,3 @@ services:
     ports:
     - "9904:8088"
     restart: always
-
-  evs-cassandra:
-    image: docker.io/cybermaggedon/evs-cassandra:0.4.2
-    environment:
-      PULSAR_BROKER: pulsar://exchange:6650
-      INPUT: ioc
-      CASSANDRA_CLUSTER: cassandra
-      METRICS_PORT: 8088
-    ports:
-    - "9905:8088"
-    restart: always
-
-  prometheus:
-    image: prom/prometheus:v2.19.1
-    volumes:
-    - ./prometheus:/etc/prometheus
-    ports:
-    - "9090:9090"
-    restart: always
-
-  grafana:
-    image: grafana/grafana:7.0.3
-    ports:
-    - "3000:3000"
-    restart: always
-

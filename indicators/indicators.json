@@ -170,6 +170,20 @@
             },
             "type": "hash",
             "value": "md5:1b83d7a25838adc97be4121cc3ce0d83"
+        },
+        {
+            "id": "1234d58f-d229-42ee-839e-edd3b26ad104",
+            "descriptor": {
+                "description": "Hostname of APT C+C",
+                "category": "apt/apt-87",
+                "author": "someone@example.com",
+                "source": "id:3245edd9-e0f3-4982-9406-fbf93b874555",
+                "type": "hostname",
+                "value": "www.twistedcheese.com"
+            },
+            "type": "hostname",
+            "value": "www.twistedcheese.com"
         }
+        
     ]
 }
