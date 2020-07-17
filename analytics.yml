@@ -71,7 +71,7 @@ services:
     - ./pulsar:/pulsar/data
     ports:
     - "6650:6650"
-    - "8080:8080"
+    - "8888:8080"
 
   # cybermon
   cybermon:
@@ -120,7 +120,7 @@ services:
     restart: always
 
   evs-threatgraph:
-    image: docker.io/cybermaggedon/evs-threatgraph:0.4.2
+    image: docker.io/cybermaggedon/evs-threatgraph:0.4.4
     environment:
       PULSAR_BROKER: pulsar://exchange:6650
       INPUT: ioc

@@ -44,7 +44,7 @@ services:
     - ./pulsar:/pulsar/data
     ports:
     - "6650:6650"
-    - "8080:8080"
+    - "8888:8080"
 
   # cybermon
   cybermon:
@@ -82,7 +82,7 @@ services:
     restart: always
 
   evs-threatgraph:
-    image: docker.io/cybermaggedon/evs-threatgraph:0.4.2
+    image: docker.io/cybermaggedon/evs-threatgraph:0.4.4
     environment:
       PULSAR_BROKER: pulsar://exchange:6650
       INPUT: ioc
@@ -102,3 +102,16 @@ services:
     ports:
     - "9904:8088"
     restart: always
+
+  web:
+    image: nginx:1.19.1
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "8080:80"
+
+  evs-web:
+    image: docker.io/cybermaggedon/evs-web:0.2
+    restart: always
+    ports:
+      - "4200:8080"
