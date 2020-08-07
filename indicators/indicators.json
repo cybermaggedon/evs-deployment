@@ -6,7 +6,7 @@
             "id": "9364a191-f7f1-46ad-875c-e80f61740dca",
             "descriptor": {
                 "description": "Spearphish attacker",
-                "category": "spyware",
+                "category": "credential-discovery-via-cracking",
                 "author": "someone@example.com",
                 "source": "id:3245edd9-e0f3-4982-9406-fbf93b874555",
                 "type": "email",
@@ -18,21 +18,60 @@
         {
             "id": "0acf0328-6276-4726-9686-510633881413",
             "descriptor": {
-                "description": "Malware server IP address",
-                "category": "tor-exit",
+                "description": "Credential cracking IP address",
+                "category": "credential-discovery-via-cracking",
                 "author": "someone@example.com",
                 "source": "id:3245edd9-e0f3-4982-9406-fbf93b874555",
                 "type": "ipv4",
-                "value": "192.179.1.72"
+                "value": "192.168.0.254"
             },
             "type": "ipv4",
-            "value": "192.179.1.72"
+            "value": "192.168.0.254"
         },
         {
             "id": "0acf0328-6276-4726-9686-510633881413",
             "descriptor": {
-                "description": "Malware server IP address",
-                "category": "credential-theft",
+                "description": "Credential brute force IP address",
+                "category": "credential-discovery-via-guessing",
+                "author": "someone@example.com",
+                "source": "id:3245edd9-e0f3-4982-9406-fbf93b874555",
+                "type": "ipv4",
+                "value": "192.168.0.253"
+            },
+            "type": "ipv4",
+            "value": "192.168.0.253"
+        },
+        {
+            "id": "0acf0328-6276-4726-9686-510633881413",
+            "descriptor": {
+                "description": "Insider threat op WARDROBE",
+                "category": "abuse-of-system-privileges",
+                "author": "someone@example.com",
+                "source": "id:3245edd9-e0f3-4982-9406-fbf93b874555",
+                "type": "ipv4",
+                "value": "192.168.0.252"
+            },
+            "type": "ipv4",
+            "value": "192.179.0.252"
+        },
+        {
+            "id": "0acf0328-6276-4726-9686-510633881413",
+            "descriptor": {
+                "description": "Cache-poisoning server IP address",
+                "category": "cache-poisoning",
+                "author": "someone@example.com",
+                "source": "id:3245edd9-e0f3-4982-9406-fbf93b874555",
+                "type": "ipv4",
+                "value": "192.168.0.251"
+            },
+            "type": "ipv4",
+            "value": "192.168.0.251"
+        },
+        {
+            "id": "0acf0328-6276-4726-9686-510633881413",
+            "descriptor": {
+                "description": "Replay attack server IP address",
+                "category": "replay-of-data-in-transit-use",
                 "author": "someone@example.com",
                 "source": "id:3245edd9-e0f3-4982-9406-fbf93b874555",
                 "type": "ipv4",
@@ -44,8 +83,8 @@
         {
             "id": "0acf0328-6276-4726-9686-510633881413",
             "descriptor": {
-                "description": "Malware server IP address",
-                "category": "malware",
+                "description": "API abuse source IP address",
+                "category": "application-exploitation-via-api-abuse",
                 "author": "someone@example.com",
                 "source": "id:3245edd9-e0f3-4982-9406-fbf93b874555",
                 "type": "ipv4",
@@ -58,7 +97,7 @@
             "id": "222b5390-054b-4630-9709-b809288ac947",
             "descriptor": {
                 "description": "Compromised wifi access point",
-                "category": "malware",
+                "category": "application-exploitation-via-fuzzing",
                 "author": "someone@example.com",
                 "source": "id:3245edd9-e0f3-4982-9406-fbf93b874555",
                 "type": "mac",
@@ -71,7 +110,7 @@
             "id": "c453df4f-a039-4183-92de-ae9082325787",
             "descriptor": {
                 "description": "File containing malware",
-                "category": "malware",
+                "category": "application-exploitation-via-fuzzing",
                 "author": "someone@example.com",
                 "source": "id:3245edd9-e0f3-4982-9406-fbf93b874555",
                 "type": "path",
@@ -84,7 +123,7 @@
             "id": "3fa4d58f-d229-42ee-839e-edd3b26ad104",
             "descriptor": {
                 "description": "Hostname of malware server",
-                "category": "malware",
+                "category": "capture-of-stored-data",
                 "author": "someone@example.com",
                 "source": "id:3245edd9-e0f3-4982-9406-fbf93b874555",
                 "type": "hostname",
@@ -97,7 +136,7 @@
             "id": "845bcc85-49f5-427c-806c-5fe5984c2c5c",
             "descriptor": {
                 "description": "TCP port of malware trojan",
-                "category": "malware",
+                "category": "capture-of-stored-data",
                 "author": "someone@example.com",
                 "source": "id:3245edd9-e0f3-4982-9406-fbf93b874555",
                 "type": "tcp",
@@ -110,7 +149,7 @@
             "id": "6b7aa83f-8c43-4aaa-817f-5039adef19ef",
             "descriptor": {
                 "description": "URL of a page serving malware",
-                "category": "malware",
+                "category": "application-exploitation-via-authentication-bypass",
                 "author": "someone@example.com",
                 "source": "id:3245edd9-e0f3-4982-9406-fbf93b874555",
                 "type": "url",
@@ -149,7 +188,7 @@
             "id": "02341ecb-24d2-4987-858d-971090039eee",
             "descriptor": {
                 "description": "Account which malware is observed to use",
-                "category": "malware",
+                "category": "misdelivery-of-data",
                 "author": "someone@example.com",
                 "source": "id:3245edd9-e0f3-4982-9406-fbf93b874555",
                 "type": "account",
@@ -162,7 +201,7 @@
             "id": "fc8911fa-09b5-43a8-85e6-54e577af8f68",
             "descriptor": {
                 "description": "Hash of BBC logo",
-                "category": "spyware",
+                "category": "memory-manipulation",
                 "author": "someone@example.com",
                 "source": "id:3245edd9-e0f3-4982-9406-fbf93b874555",
                 "type": "hash",
@@ -175,7 +214,7 @@
             "id": "1234d58f-d229-42ee-839e-edd3b26ad104",
             "descriptor": {
                 "description": "Hostname of APT C+C",
-                "category": "apt/apt-87",
+                "category": "application-exploitation-via-input-manipulation",
                 "author": "someone@example.com",
                 "source": "id:3245edd9-e0f3-4982-9406-fbf93b874555",
                 "type": "hostname",
